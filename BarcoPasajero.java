@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 public final class BarcoPasajero extends Barco {
     private final String[] pasajeros;
     private final double precioBoleto;
@@ -14,14 +15,11 @@ public final class BarcoPasajero extends Barco {
     @Override
     public void agregarElemento() {
         if (contadorPasajeros < pasajeros.length) {
-            String nombrePasajero = JOptionPane.showInputDialog(null, "Ingrese el nombre del pasajero:");
-            if (nombrePasajero != null && !nombrePasajero.trim().isEmpty()) {
-                pasajeros[contadorPasajeros++] = nombrePasajero.trim();
-            } else {
-                JOptionPane.showMessageDialog(null, "Nombre del pasajero no puede estar vacío.");
-            }
+            String nombrePasajero = JOptionPane.showInputDialog("Ingrese el nombre del pasajero:");
+            pasajeros[contadorPasajeros] = nombrePasajero;
+            contadorPasajeros++;
         } else {
-            JOptionPane.showMessageDialog(null, "No hay más espacio en el barco.");
+            JOptionPane.showMessageDialog(null, "El barco está lleno. No se pueden agregar más pasajeros.");
         }
     }
 
@@ -39,18 +37,17 @@ public final class BarcoPasajero extends Barco {
 
     @Override
     public String toString() {
-        return super.toString() + " (Cantidad de Pasajeros que compraron boleto: " + contadorPasajeros + ")";
+        return super.toString() + " - Cantidad de Pasajeros que compraron boleto: " + contadorPasajeros;
     }
 
     public void listarPasajeros() {
-        String pasajerosListado = listarPasajerosRecursivo(0);
-        JOptionPane.showMessageDialog(null, pasajerosListado, "Lista de Pasajeros", JOptionPane.INFORMATION_MESSAGE);
+        listarPasajerosRecursivo(0);
     }
 
-    private String listarPasajerosRecursivo(int index) {
+    private void listarPasajerosRecursivo(int index) {
         if (index < contadorPasajeros) {
-            return pasajeros[index] + "\n" + listarPasajerosRecursivo(index + 1);
+            System.out.println(pasajeros[index]);
+            listarPasajerosRecursivo(index + 1);
         }
-        return "";
     }
 }

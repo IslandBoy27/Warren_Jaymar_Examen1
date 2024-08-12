@@ -1,19 +1,19 @@
-import java.util.Date;
+import java.util.Calendar;
 
 public abstract class Barco {
     private final String nombre;
-    private final Date fechaCirculacion;
+    private final Calendar fechaCirculacion;
 
     public Barco(String nombre) {
         this.nombre = nombre;
-        this.fechaCirculacion = new Date(); // Fecha actual
+        this.fechaCirculacion = Calendar.getInstance();
     }
 
     public final String getNombre() {
         return nombre;
     }
 
-    public final Date getFechaCirculacion() {
+    public final Calendar getFechaCirculacion() {
         return fechaCirculacion;
     }
 
@@ -26,4 +26,3 @@ public abstract class Barco {
     public abstract double vaciarCobrar();
     public abstract double precioElemento();
 }
-

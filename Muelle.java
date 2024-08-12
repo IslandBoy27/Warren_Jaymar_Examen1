@@ -3,9 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Muelle {
-    private ArrayList<Barco> barcos;
+    private final ArrayList<Barco> barcos;
 
     public Muelle() {
         barcos = new ArrayList<>();
@@ -89,11 +90,11 @@ public class Muelle {
             JOptionPane.showMessageDialog(null, "No se encontraron barcos desde el año " + year, "Barcos desde " + year, JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    //Funcion Recursiva
     private void barcosDesdeRecursivo(int year, int index, StringBuilder detalles) {
         if (index < barcos.size()) {
-            if (barcos.get(index).getFechaCirculacion().getYear() + 1900 >= year) {
-                detalles.append(barcos.get(index).getNombre()).append(" - ").append(barcos.get(index).getFechaCirculacion()).append("\n");
+            if (barcos.get(index).getFechaCirculacion().get(Calendar.YEAR) >= year) {
+                detalles.append(barcos.get(index).getNombre()).append(" - ").append(barcos.get(index).getFechaCirculacion().getTime()).append("\n");
             }
             barcosDesdeRecursivo(year, index + 1, detalles);
         }
@@ -105,49 +106,33 @@ public class Muelle {
         JFrame frame = new JFrame("Gestión de Muelle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
-
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 1)); // 5 filas, 1 columna
+        panel.setLayout(new GridLayout(4, 1));
 
-        JButton btnAgregarBarco = new JButton("Agregar Barco");
-        btnAgregarBarco.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                muelle.agregarBarco();
-            }
+        JButton agregarBarcoButton = new JButton("Agregar Barco");
+        agregarBarcoButton.addActionListener(e -> muelle.agregarBarco());
+        panel.add(agregarBarcoButton);
+
+        JButton agregarElementoButton = new JButton("Agregar Elemento");
+        agregarElementoButton.addActionListener(e -> {
+            String nombre = JOptionPane.showInputDialog("Ingrese el nombre del barco:");
+            muelle.agregarElemento(nombre);
         });
+        panel.add(agregarElementoButton);
 
-        JButton btnAgregarElemento = new JButton("Agregar Elemento a Barco");
-        btnAgregarElemento.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del barco:");
-                muelle.agregarElemento(nombre);
-            }
+        JButton vaciarBarcoButton = new JButton("Vaciar Barco");
+        vaciarBarcoButton.addActionListener(e -> {
+            String nombre = JOptionPane.showInputDialog("Ingrese el nombre del barco:");
+            muelle.vaciarBarco(nombre);
         });
+        panel.add(vaciarBarcoButton);
 
-        JButton btnVaciarBarco = new JButton("Vaciar Barco y Cobrar");
-        btnVaciarBarco.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del barco:");
-                muelle.vaciarBarco(nombre);
-            }
+        JButton barcosDesdeButton = new JButton("Barcos Desde Año");
+        barcosDesdeButton.addActionListener(e -> {
+            int year = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el año:"));
+            muelle.barcosDesde(year);
         });
-
-        JButton btnBarcosDesde = new JButton("Mostrar Barcos Desde Año");
-        btnBarcosDesde.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int year = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el año:"));
-                muelle.barcosDesde(year);
-            }
-        });
-
-        panel.add(btnAgregarBarco);
-        panel.add(btnAgregarElemento);
-        panel.add(btnVaciarBarco);
-        panel.add(btnBarcosDesde);
+        panel.add(barcosDesdeButton);
 
         frame.add(panel);
         frame.setVisible(true);

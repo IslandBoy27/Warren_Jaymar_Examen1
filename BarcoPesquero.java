@@ -10,7 +10,7 @@ public final class BarcoPesquero extends Barco {
 
     @Override
     public void agregarElemento() {
-        pecesCapturados += 1;
+        pecesCapturados ++;
     }
 
     @Override
@@ -27,6 +27,6 @@ public final class BarcoPesquero extends Barco {
 
     @Override
     public String toString() {
-        return super.toString() + " (Tipo: " + tipoPesquero + ", Peces Capturados: " + pecesCapturados + ")";
+        return super.toString() + " - Tipo: " + tipoPesquero + " - Peces Capturados: " + pecesCapturados;
     }
 }
